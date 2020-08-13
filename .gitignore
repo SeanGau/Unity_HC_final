@@ -2,7 +2,6 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
-/HC_Final_ShotRace/[Ll]ibrary/[*]Cache/*
 /HC_Final_ShotRace/[Tt]emp/
 /HC_Final_ShotRace/[Oo]bj/
 /HC_Final_ShotRace/[Bb]uild/
