@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CarShowCamera : MonoBehaviour
 {
     public static int nowCar = 0;
     public Transform carSet;
+    public Text carName;
     int carAmount;
 
     void Start()
@@ -20,6 +22,7 @@ public class CarShowCamera : MonoBehaviour
         nowCar=(nowCar+dir)%carAmount;
         if(nowCar < 0)
           nowCar = carAmount-1;
+        carName.text = "Car" + (nowCar+1);
     }
 
 
