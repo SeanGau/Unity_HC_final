@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class CarShowCamera : MonoBehaviour
 {
+    public Vector3 offset = new Vector3(0, 3.5f, 17);
     public static int nowCar = 0;
     public Transform carSet;
     public Text carName;
@@ -33,7 +34,7 @@ public class CarShowCamera : MonoBehaviour
 
     private void Track()
     {
-        Vector3 pos = new Vector3(-20*(nowCar+1), 3.5f, 17);
+        Vector3 pos = carSet.GetChild(nowCar).position + offset;
         transform.position = Vector3.Lerp(transform.position, pos, 0.5f * Time.deltaTime * 10);
     }
 }
