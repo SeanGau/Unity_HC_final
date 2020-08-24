@@ -8,6 +8,7 @@
 /HC_Final_ShotRace/[Bb]uilds/
 /HC_Final_ShotRace/[Ll]ogs/
 /HC_Final_ShotRace/[Mm]emoryCaptures/
+/HC_Final_ShotRace/[Ll]ibrary/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/HC_Final_ShotRace/[Aa]ssets/**/*.meta
