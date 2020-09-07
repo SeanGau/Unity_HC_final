@@ -10,9 +10,11 @@ public class CarControl : MonoBehaviour
     public WheelCollider wheel_br;
     public WheelCollider wheel_bl;
     public float accel = 2000f;
-    public float breakv = 1000f;
-    public float steer = 30;
+    public float breakv = 5000f;
+    public float steer = 20;
 
+    static int checkcount = 0;
+    public Text checkText;
     public Text speedText;
     public Image torqueImage;
 
@@ -52,16 +54,16 @@ public class CarControl : MonoBehaviour
         }
         wheel_br.motorTorque = wheel_bl.motorTorque = wheel_fr.motorTorque = wheel_fl.motorTorque = nowTorque;
         rb.AddForce(0, -1 * nowTorque, 0);
-        print(nowTorque);
 
         if (Input.GetKey(KeyCode.DownArrow))
         {
             wheel_br.brakeTorque = wheel_bl.brakeTorque = wheel_fr.brakeTorque = wheel_fl.brakeTorque = breakv*1000;
-            rb.AddForce(transform.forward* -breakv);
+            rb.AddForce(rb.velocity* -breakv);
         }
         else
         {
             wheel_br.brakeTorque = wheel_bl.brakeTorque = wheel_fr.brakeTorque = wheel_fl.brakeTorque = 0;
+            rb.AddForce(rb.velocity* -10);
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
@@ -82,5 +84,14 @@ public class CarControl : MonoBehaviour
         {
             transform.position = new Vector3(0, 1, 0);
         }
+    }
+
+    private void OnTriggerEnter(Collider cl)
+    {
+      if(cl.gameObject.tag == "checkpoint")
+      {
+        checkcount++;
+        checkText.text = checkcount.ToString();
+      }
     }
 }
