@@ -206,6 +206,7 @@ GameObject:
   - component: {fileID: 87531860}
   - component: {fileID: 87531861}
   - component: {fileID: 87531862}
+  - component: {fileID: 87531863}
   m_Layer: 5
   m_Name: "\u8DEF\u7DDA\u8A08\u6B21"
   m_TagString: Untagged
@@ -253,7 +254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -273,6 +274,21 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 0
+--- !u!114 &87531863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87531859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 2, y: -2}
+  m_UseGraphicAlpha: 1
 --- !u!1 &178632715
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,6 +439,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 179396673}
   m_CullTransparentMesh: 0
+--- !u!4 &337301862 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400010, guid: 771c0bee2725abf45b06257dba71d684,
+    type: 3}
+  m_PrefabInstance: {fileID: 1520486945}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &342875552
 GameObject:
   m_ObjectHideFlags: 0
@@ -593,9 +615,11 @@ MonoBehaviour:
   wheel_fl: {fileID: 1609976434}
   wheel_br: {fileID: 454348941}
   wheel_bl: {fileID: 496497816}
+  wheel_fr_obj: {fileID: 1869179374}
+  wheel_fl_obj: {fileID: 337301862}
   accel: 2000
   breakv: 200
-  steer: 20
+  steer: 25
   checkText: {fileID: 87531862}
   speedText: {fileID: 742691036}
   torqueImage: {fileID: 1493530027}
@@ -651,14 +675,14 @@ WheelCollider:
     m_ExtremumSlip: 0.2
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.75
+    m_AsymptoteValue: 1
     m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.75
-    m_Stiffness: 0.5
+    m_AsymptoteValue: 0.9
+    m_Stiffness: 0.75
   m_Enabled: 1
 --- !u!1 &496497814
 GameObject:
@@ -712,14 +736,14 @@ WheelCollider:
     m_ExtremumSlip: 0.2
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.75
+    m_AsymptoteValue: 1
     m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.75
-    m_Stiffness: 0.5
+    m_AsymptoteValue: 0.9
+    m_Stiffness: 0.75
   m_Enabled: 1
 --- !u!1 &499062090
 GameObject:
@@ -807,6 +831,7 @@ GameObject:
   - component: {fileID: 538400960}
   - component: {fileID: 538400959}
   - component: {fileID: 538400958}
+  - component: {fileID: 538400962}
   m_Layer: 0
   m_Name: checkpoint
   m_TagString: checkpoint
@@ -5558,13 +5583,28 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 538400957}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 47}
+  m_LocalPosition: {x: 0, y: 0, z: 50}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 806952813}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &538400962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538400957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37ce56d127a4bd4d9e1c4ad1704101d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pos:
+  - {x: 0, y: 0, z: 50}
+  - {x: 50, y: 0, z: 100}
 --- !u!1 &690423078
 GameObject:
   m_ObjectHideFlags: 0
@@ -5971,14 +6011,14 @@ WheelCollider:
     m_ExtremumSlip: 0.2
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.75
+    m_AsymptoteValue: 1
     m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.75
-    m_Stiffness: 0.5
+    m_AsymptoteValue: 0.9
+    m_Stiffness: 0.75
   m_Enabled: 1
 --- !u!1 &1493530025
 GameObject:
@@ -6061,9 +6101,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 100000, guid: 771c0bee2725abf45b06257dba71d684, type: 3}
+      propertyPath: m_TagString
+      value: car
+      objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 771c0bee2725abf45b06257dba71d684, type: 3}
       propertyPath: m_Name
       value: car_9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 771c0bee2725abf45b06257dba71d684, type: 3}
+      propertyPath: m_TagString
+      value: car
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 771c0bee2725abf45b06257dba71d684, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6335,14 +6383,14 @@ WheelCollider:
     m_ExtremumSlip: 0.2
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.75
+    m_AsymptoteValue: 1
     m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.75
-    m_Stiffness: 0.5
+    m_AsymptoteValue: 0.9
+    m_Stiffness: 0.75
   m_Enabled: 1
 --- !u!1 &1616564917
 GameObject:
@@ -6587,6 +6635,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1520486945}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1869179374 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400012, guid: 771c0bee2725abf45b06257dba71d684,
+    type: 3}
+  m_PrefabInstance: {fileID: 1520486945}
+  m_PrefabAsset: {fileID: 0}
 --- !u!146 &1869179377
 WheelCollider:
   m_ObjectHideFlags: 0
@@ -6628,6 +6682,7 @@ GameObject:
   - component: {fileID: 1877943979}
   - component: {fileID: 1877943981}
   - component: {fileID: 1877943980}
+  - component: {fileID: 1877943982}
   m_Layer: 5
   m_Name: "\u5B50\u5F48"
   m_TagString: Untagged
@@ -6667,7 +6722,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -6695,6 +6750,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1877943978}
   m_CullTransparentMesh: 0
+--- !u!114 &1877943982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1877943978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 2, y: -2}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1925054869 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 771c0bee2725abf45b06257dba71d684,
@@ -6831,6 +6901,7 @@ GameObject:
   - component: {fileID: 2071407850}
   - component: {fileID: 2071407849}
   - component: {fileID: 2071407851}
+  - component: {fileID: 2071407852}
   m_Layer: 5
   m_Name: "\u5C0F\u5730\u5716"
   m_TagString: Untagged
@@ -6906,3 +6977,16 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
+--- !u!114 &2071407852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2071407847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b75ed1f6c1d0efe4da799f03551763bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aTexture: {fileID: 8400000, guid: e79ad530bb9e64a4594646079a090cae, type: 2}
