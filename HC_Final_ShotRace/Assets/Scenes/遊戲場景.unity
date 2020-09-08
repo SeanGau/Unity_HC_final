@@ -592,8 +592,8 @@ Rigidbody:
   m_GameObject: {fileID: 437890361}
   serializedVersion: 2
   m_Mass: 1000
-  m_Drag: 0.15
-  m_AngularDrag: 1
+  m_Drag: 0.2
+  m_AngularDrag: 2.5
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -619,7 +619,7 @@ MonoBehaviour:
   wheel_fl_obj: {fileID: 337301862}
   accel: 2000
   breakv: 200
-  steer: 25
+  steer: 30
   checkText: {fileID: 87531862}
   speedText: {fileID: 742691036}
   torqueImage: {fileID: 1493530027}
@@ -668,8 +668,8 @@ WheelCollider:
     damper: 4500
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
-  m_ForceAppPointDistance: 0
-  m_Mass: 50
+  m_ForceAppPointDistance: 0.3
+  m_Mass: 40
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
     m_ExtremumSlip: 0.2
@@ -679,10 +679,10 @@ WheelCollider:
     m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
-    m_ExtremumValue: 1
+    m_ExtremumValue: 0.8
     m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.9
-    m_Stiffness: 0.75
+    m_AsymptoteValue: 0.5
+    m_Stiffness: 0.5
   m_Enabled: 1
 --- !u!1 &496497814
 GameObject:
@@ -729,8 +729,8 @@ WheelCollider:
     damper: 4500
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
-  m_ForceAppPointDistance: 0
-  m_Mass: 50
+  m_ForceAppPointDistance: 0.3
+  m_Mass: 40
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
     m_ExtremumSlip: 0.2
@@ -740,10 +740,10 @@ WheelCollider:
     m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
-    m_ExtremumValue: 1
+    m_ExtremumValue: 0.8
     m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.9
-    m_Stiffness: 0.75
+    m_AsymptoteValue: 0.5
+    m_Stiffness: 0.5
   m_Enabled: 1
 --- !u!1 &499062090
 GameObject:
@@ -5868,7 +5868,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0, g: 0.2985139, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.2985139, b: 1, a: 0.78431374}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -5949,7 +5949,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.78431374}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -6004,8 +6004,8 @@ WheelCollider:
     damper: 4500
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
-  m_ForceAppPointDistance: 0
-  m_Mass: 50
+  m_ForceAppPointDistance: 0.3
+  m_Mass: 40
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
     m_ExtremumSlip: 0.2
@@ -6015,10 +6015,10 @@ WheelCollider:
     m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
-    m_ExtremumValue: 1
+    m_ExtremumValue: 0.8
     m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.9
-    m_Stiffness: 0.75
+    m_AsymptoteValue: 0.5
+    m_Stiffness: 0.5
   m_Enabled: 1
 --- !u!1 &1493530025
 GameObject:
@@ -6376,8 +6376,8 @@ WheelCollider:
     damper: 4500
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
-  m_ForceAppPointDistance: 0
-  m_Mass: 50
+  m_ForceAppPointDistance: 0.3
+  m_Mass: 40
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
     m_ExtremumSlip: 0.2
@@ -6387,10 +6387,10 @@ WheelCollider:
     m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
-    m_ExtremumValue: 1
+    m_ExtremumValue: 0.8
     m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.9
-    m_Stiffness: 0.75
+    m_AsymptoteValue: 0.5
+    m_Stiffness: 0.5
   m_Enabled: 1
 --- !u!1 &1616564917
 GameObject:
@@ -6520,7 +6520,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 573edf134f8936d4a9a810b7751b7e2f, type: 2}
+  - {fileID: 2100000, guid: 594c9e2618b97d542bae8e47e544b7f1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -11,9 +11,9 @@ public class CarControl : MonoBehaviour
     public WheelCollider wheel_bl;
     public Transform wheel_fr_obj;
     public Transform wheel_fl_obj;
-    public float accel = 2000f;
-    public float breakv = 5000f;
-    public float steer = 20;
+    public float accel = 4000f;
+    public float breakv = 200f;
+    public float steer = 30;
 
     static int checkcount = 0;
     public Text checkText;
@@ -22,6 +22,7 @@ public class CarControl : MonoBehaviour
 
     private Rigidbody rb;
     private float nowTorque = 0;
+    private int nowGear = 0; // P: 0, D: 1, R: -1
     // Start is called before the first frame update
     private void Awake()
     {
@@ -33,9 +34,12 @@ public class CarControl : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         Move();
+    }
+    void Update()
+    {
         UpdateDashboard();
     }
     void UpdateDashboard()
@@ -44,46 +48,50 @@ public class CarControl : MonoBehaviour
         int forwardSpeed = Mathf.Abs((int)localVelocity.z);
         int dSpeed = (int)Mathf.Sqrt(rb.velocity.x * rb.velocity.x + rb.velocity.z * rb.velocity.z);
         speedText.text = dSpeed.ToString();
-        torqueImage.fillAmount = nowTorque / accel * 0.5f;
+        torqueImage.fillAmount = Mathf.Abs(nowTorque) / accel * 0.5f;
     }
     private void Move()
     {
-        float v = Input.GetAxis("Vertical");
-        nowTorque = Mathf.Lerp(nowTorque, accel * v, 0.5f * Time.deltaTime * 10);
-        wheel_br.motorTorque = wheel_bl.motorTorque = wheel_fr.motorTorque = wheel_fl.motorTorque = nowTorque;
-        rb.AddForce(0, -1 * nowTorque, 0);
-
-        if (Input.GetKey(KeyCode.DownArrow))
+        var localVelocity = transform.InverseTransformDirection(rb.velocity);
+        if(localVelocity.z > 0.1)
         {
-            print(rb.velocity.sqrMagnitude);
-            if (rb.velocity.sqrMagnitude > 1)
-            {
-                wheel_br.brakeTorque = wheel_bl.brakeTorque = wheel_fr.brakeTorque = wheel_fl.brakeTorque = breakv * 1000;
-                rb.AddForce(rb.velocity * -breakv);
-            }
-            else
-            {
-                wheel_br.brakeTorque = wheel_bl.brakeTorque = wheel_fr.brakeTorque = wheel_fl.brakeTorque = 0;
-            }
+          nowGear = 1;
+        }
+        else if(localVelocity.z <= -0.1)
+        {
+          nowGear = -1;
         }
         else
         {
-            wheel_br.brakeTorque = wheel_bl.brakeTorque = wheel_fr.brakeTorque = wheel_fl.brakeTorque = 0;
-            rb.AddForce(rb.velocity* -10);
+          nowGear = 0;
         }
+        rb.AddForce(-transform.up * localVelocity.sqrMagnitude);
+
+        float v = Input.GetAxis("Vertical");
+        if (v == 0)
+        {
+            rb.AddForce(rb.velocity * -breakv);
+            nowTorque = Mathf.Lerp(nowTorque, 0, 0.5f);
+            wheel_br.brakeTorque = wheel_bl.brakeTorque = wheel_fr.brakeTorque = wheel_fl.brakeTorque = 0;
+        }
+        else if (localVelocity.z * v > 0 || nowGear == 0)
+        {
+            nowTorque = Mathf.Lerp(nowTorque, accel * v, 0.5f);
+            wheel_br.brakeTorque = wheel_bl.brakeTorque = wheel_fr.brakeTorque = wheel_fl.brakeTorque = 0;
+        }
+        else
+        {
+            if (localVelocity.z * v < 0)
+            {
+              rb.AddForce(rb.velocity * -breakv);
+            }
+            nowTorque = Mathf.Lerp(nowTorque, 0, 0.5f);
+            wheel_br.brakeTorque = wheel_bl.brakeTorque = breakv * 1000;
+        }
+        wheel_br.motorTorque = wheel_bl.motorTorque = wheel_fr.motorTorque = wheel_fl.motorTorque = nowTorque;
+
         float h = Input.GetAxis("Horizontal");
         wheel_fr.steerAngle = wheel_fl.steerAngle =  h * steer;
-        wheel_fl_obj.rotation = wheel_fr_obj.rotation = Quaternion.Euler(0, h * steer, 0);
-        /*
-        if (h!=0)
-        {
-            wheel_fr.steerAngle = wheel_fl.steerAngle = Mathf.Lerp(wheel_fr.steerAngle, h*steer, 0.9f * Time.deltaTime * 10);
-        }
-        else
-        {
-            wheel_fr.steerAngle = wheel_fl.steerAngle = Mathf.Lerp(wheel_fr.steerAngle, 0, 0.9f * Time.deltaTime *10);            
-        }*/
-
 
         if (transform.position.y < -1)
         {
