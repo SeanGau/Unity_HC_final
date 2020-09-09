@@ -5,7 +5,8 @@ public class GunControl : MonoBehaviour
     public float mouseSensitivity = 100f;
     public Transform Gun;
 
-    //float xRotation = 0f;
+    float yRotation = 0f;
+    float xRotation = 0f;
 
     public Animator ani;
 
@@ -21,14 +22,16 @@ public class GunControl : MonoBehaviour
     private void Update()
     {
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        //float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-        //xRotation += mouseY;
-        //xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        yRotation -= mouseY;
+        yRotation = Mathf.Clamp(yRotation, -7f, 0f);
 
-        //transform.localRotation = Quaternion.Euler(0f, xRotation, 0f);
+        xRotation += mouseX;
 
-        Gun.Rotate(Vector3.right * mouseX);
+        Gun.localRotation = Quaternion.Euler(0f, 0f, yRotation);
+
+        transform.Rotate(Vector3.right * mouseX);
         //Gun.Rotate(Vector3.back * mouseY);
 
         shot();
