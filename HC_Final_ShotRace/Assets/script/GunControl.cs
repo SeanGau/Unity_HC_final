@@ -13,6 +13,8 @@ public class GunControl : MonoBehaviour
     [Header("音效")]
     public AudioClip soundShot;
 
+    //float yRotation = 0f;
+
     public Transform Gun;
     public Animator ani;
     public Canvas can;
@@ -34,9 +36,23 @@ public class GunControl : MonoBehaviour
         //Vector2 newPoint = new Vector2(v2.x - 0.5f, v2.y - 0.5f);
         //Vector2 temp = new Vector2(newPoint.x * this.width, newPoint.y * this.height);
     }
+       
 
     private void Update()
     {
+        //float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+        //float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+
+        //yRotation -= mouseY;
+        //yRotation = Mathf.Clamp(yRotation, -7f, 0f);
+
+        //xRotation += mouseX;
+
+        //Gun.localRotation = Quaternion.Euler(0f, 0f, yRotation);
+
+        //transform.Rotate(Vector3.right * mouseX);
+        //Gun.Rotate(Vector3.back * mouseY);
+
         shot();
         Mouse();
     }
