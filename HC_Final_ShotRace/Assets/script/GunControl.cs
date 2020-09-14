@@ -17,7 +17,6 @@ public class GunControl : MonoBehaviour
 
     public Transform Gun;
     public Animator ani;
-    public Canvas can;
     public AudioSource aud;
 
     /// <summary>
@@ -27,37 +26,25 @@ public class GunControl : MonoBehaviour
     {
         bool leftmouse = Input.GetKey(KeyCode.Mouse0);
         ani.SetBool("射擊", leftmouse);
-        if (Input.GetKeyDown(KeyCode.Mouse0)) aud.PlayOneShot(soundShot, 0.8f);
+        if (Input.GetKey(KeyCode.Mouse0) &&!aud.isPlaying) aud.PlayOneShot(soundShot, 0.8f);
+        if (Input.GetKeyUp(KeyCode.Mouse0)) aud.Stop();
     }
 
     private void Mouse()
     {
-        //Vector2 v2 = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-        //Vector2 newPoint = new Vector2(v2.x - 0.5f, v2.y - 0.5f);
-        //Vector2 temp = new Vector2(newPoint.x * this.width, newPoint.y * this.height);
+        Vector3 mousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+        Vector3 targetPos = new Vector3(mousePos.x - 0.5f,0 ,mousePos.y - 0.5f);
+        Gun.forward = targetPos;
     }
-       
+
 
     private void Update()
     {
-        //float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        //float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
-
-        //yRotation -= mouseY;
-        //yRotation = Mathf.Clamp(yRotation, -7f, 0f);
-
-        //xRotation += mouseX;
-
-        //Gun.localRotation = Quaternion.Euler(0f, 0f, yRotation);
-
-        //transform.Rotate(Vector3.right * mouseX);
-        //Gun.Rotate(Vector3.back * mouseY);
-
         shot();
         Mouse();
     }
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        
     }
 }
