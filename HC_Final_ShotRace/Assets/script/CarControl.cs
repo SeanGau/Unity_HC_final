@@ -50,11 +50,11 @@ public class CarControl : MonoBehaviour
     private void Move()
     {
         var localVelocity = transform.InverseTransformDirection(rb.velocity);
-        if(localVelocity.z > 0.1)
+        if(localVelocity.z > 0.5)
         {
           nowGear = 1;
         }
-        else if(localVelocity.z <= -0.1)
+        else if(localVelocity.z < -0.5)
         {
           nowGear = -1;
         }
@@ -65,15 +65,21 @@ public class CarControl : MonoBehaviour
         rb.AddForce(-transform.up * localVelocity.sqrMagnitude * Time.deltaTime * 50);
 
         float v = Input.GetAxis("Vertical");
-        if (v == 0) //滑行
+        if (Input.GetKey(KeyCode.Space))
         {
             rb.AddForce(rb.velocity * -breakv * Time.deltaTime);
-            nowTorque = Mathf.Lerp(nowTorque, 0, 0.5f);
+            nowTorque = Mathf.Lerp(nowTorque, 0, 0.5f * Time.deltaTime * 50);
+            wheel_br.brakeTorque = wheel_bl.brakeTorque = breakv * 1000;
+        }
+        else if (v == 0) //滑行
+        {
+            rb.AddForce(rb.velocity * -breakv * Time.deltaTime);
+            nowTorque = Mathf.Lerp(nowTorque, 0, 0.5f * Time.deltaTime *50);
             wheel_br.brakeTorque = wheel_bl.brakeTorque = wheel_fr.brakeTorque = wheel_fl.brakeTorque = 0;
         }
         else if (localVelocity.z * v > 0 || nowGear == 0) //加速or低速狀態
         {
-            nowTorque = Mathf.Lerp(nowTorque, accel * v, 0.5f);
+            nowTorque = Mathf.Lerp(nowTorque, accel * v, 0.5f * Time.deltaTime * 50);
             wheel_br.brakeTorque = wheel_bl.brakeTorque = wheel_fr.brakeTorque = wheel_fl.brakeTorque = 0;
         }
         else
@@ -82,7 +88,7 @@ public class CarControl : MonoBehaviour
             {
               rb.AddForce(rb.velocity * -breakv * Time.deltaTime * 50);
             }
-            nowTorque = Mathf.Lerp(nowTorque, 0, 0.5f);
+            nowTorque = Mathf.Lerp(nowTorque, 0, 0.5f * Time.deltaTime *50);
             wheel_br.brakeTorque = wheel_bl.brakeTorque = breakv * 1000;
         }
         int dSpeed = (int)Mathf.Sqrt(rb.velocity.x * rb.velocity.x + rb.velocity.z * rb.velocity.z);
