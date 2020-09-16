@@ -6,6 +6,7 @@ TagManager:
   tags:
   - checkpoint
   - car
+  - buildings
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - 
   - MapIndicator
   - ground
-  - 
+  - buildings
   - 
   - 
   - 

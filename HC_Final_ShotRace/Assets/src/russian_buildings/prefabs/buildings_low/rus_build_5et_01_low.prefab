@@ -173,9 +173,10 @@ GameObject:
   - component: {fileID: 65758341749701022}
   - component: {fileID: 65317412898453078}
   - component: {fileID: 65435142064883982}
+  - component: {fileID: -2976401796070123118}
   m_Layer: 9
   m_Name: rus_build_5et_01_low
-  m_TagString: Untagged
+  m_TagString: buildings
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -285,3 +286,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 32, y: 32, z: 38}
   m_Center: {x: 0, y: 28, z: 0}
+--- !u!114 &-2976401796070123118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1666672974946790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 204c9480253d226428e61764741de613, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

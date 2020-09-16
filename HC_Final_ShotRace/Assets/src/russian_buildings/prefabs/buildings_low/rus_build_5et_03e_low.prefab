@@ -176,7 +176,7 @@ GameObject:
   - component: {fileID: 65282922851946178}
   m_Layer: 9
   m_Name: rus_build_5et_03e_low
-  m_TagString: Untagged
+  m_TagString: buildings
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

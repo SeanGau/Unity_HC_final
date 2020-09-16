@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 65394894332328044}
   m_Layer: 9
   m_Name: rus_build_9et_01_low
-  m_TagString: Untagged
+  m_TagString: buildings
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
