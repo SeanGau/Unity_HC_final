@@ -12,6 +12,9 @@ public class GunControl : MonoBehaviour
     public float bullet = 200;
     [Header("音效")]
     public AudioClip soundShot;
+    [Header("開槍特效")]
+    public GameObject MuzzleFlash;
+    [Header("射程")]
 
     //float yRotation = 0f;
 
@@ -26,8 +29,16 @@ public class GunControl : MonoBehaviour
     {
         bool leftmouse = Input.GetKey(KeyCode.Mouse0);
         ani.SetBool("射擊", leftmouse);
-        if (Input.GetKey(KeyCode.Mouse0) &&!aud.isPlaying) aud.PlayOneShot(soundShot, 0.8f);
-        if (Input.GetKeyUp(KeyCode.Mouse0)) aud.Stop();
+        if (Input.GetKey(KeyCode.Mouse0) && !aud.isPlaying)
+        {
+            aud.PlayOneShot(soundShot, 0.8f);
+            MuzzleFlash.SetActive(true);
+        }
+        if (Input.GetKeyUp(KeyCode.Mouse0))
+        {
+            aud.Stop();
+            MuzzleFlash.SetActive(false);
+        }
     }
 
     private void Mouse()
