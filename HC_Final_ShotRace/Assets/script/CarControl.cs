@@ -15,15 +15,18 @@ public class CarControl : MonoBehaviour
     public float breakv = 200f;
     public float steer = 30;
     public float speedLimit = 100f;
+    public float hp = 100f;
 
     static int checkcount = 0;
     public Text checkText;
     public Text speedText;
     public Image torqueImage;
+    public Image hpImage;
 
     private Rigidbody rb;
     private float nowTorque = 0;
     private int nowGear = 0; // P: 0, D: 1, R: -1
+    Vector3 localVelocity = Vector3.zero;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -40,57 +43,35 @@ public class CarControl : MonoBehaviour
     }
     void UpdateDashboard()
     {
-        var localVelocity = transform.InverseTransformDirection(rb.velocity);
         int forwardSpeed = Mathf.Abs((int)localVelocity.z);
         int dSpeed = (int)Mathf.Sqrt(rb.velocity.x * rb.velocity.x + rb.velocity.z * rb.velocity.z);
         speedText.text = dSpeed.ToString();
         torqueImage.fillAmount = Mathf.Abs(nowTorque) / accel * 0.5f;
+        hpImage.fillAmount = hp / 100;
 
     }
     private void Move()
     {
-        var localVelocity = transform.InverseTransformDirection(rb.velocity);
-        if(localVelocity.z > 0.5)
-        {
-          nowGear = 1;
-        }
-        else if(localVelocity.z < -0.5)
-        {
-          nowGear = -1;
-        }
-        else
-        {
-          nowGear = 0;
-        }
+        localVelocity = transform.InverseTransformDirection(rb.velocity);
         rb.AddForce(-transform.up * localVelocity.sqrMagnitude * Time.deltaTime * 50);
 
         float v = Input.GetAxis("Vertical");
+        nowTorque = Mathf.Lerp(nowTorque, accel * v, 0.5f * Time.deltaTime * 50);
         if (Input.GetKey(KeyCode.Space))
         {
-            rb.AddForce(rb.velocity * -breakv * Time.deltaTime);
-            nowTorque = Mathf.Lerp(nowTorque, 0, 0.5f * Time.deltaTime * 50);
+            rb.AddForce(rb.velocity * -breakv * Time.deltaTime * 5);
             wheel_br.brakeTorque = wheel_bl.brakeTorque = breakv * 1000;
         }
-        else if (v == 0) //滑行
+        else if(localVelocity.z * v < -10f || v==0)
         {
             rb.AddForce(rb.velocity * -breakv * Time.deltaTime);
-            nowTorque = Mathf.Lerp(nowTorque, 0, 0.5f * Time.deltaTime *50);
-            wheel_br.brakeTorque = wheel_bl.brakeTorque = wheel_fr.brakeTorque = wheel_fl.brakeTorque = 0;
-        }
-        else if (localVelocity.z * v > 0 || nowGear == 0) //加速or低速狀態
-        {
-            nowTorque = Mathf.Lerp(nowTorque, accel * v, 0.5f * Time.deltaTime * 50);
-            wheel_br.brakeTorque = wheel_bl.brakeTorque = wheel_fr.brakeTorque = wheel_fl.brakeTorque = 0;
+            wheel_br.brakeTorque = wheel_bl.brakeTorque = breakv * 1000;
         }
         else
         {
-            if (localVelocity.z * v < 0) //切換方向
-            {
-              rb.AddForce(rb.velocity * -breakv * Time.deltaTime * 50);
-            }
-            nowTorque = Mathf.Lerp(nowTorque, 0, 0.5f * Time.deltaTime *50);
-            wheel_br.brakeTorque = wheel_bl.brakeTorque = breakv * 1000;
+            wheel_br.brakeTorque = wheel_bl.brakeTorque = 0;
         }
+
         int dSpeed = (int)Mathf.Sqrt(rb.velocity.x * rb.velocity.x + rb.velocity.z * rb.velocity.z);
         if (dSpeed < speedLimit)
             wheel_br.motorTorque = wheel_bl.motorTorque = wheel_fr.motorTorque = wheel_fl.motorTorque = nowTorque;
@@ -112,5 +93,14 @@ public class CarControl : MonoBehaviour
         checkcount++;
         checkText.text = checkcount.ToString();
       }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        //print(collision.gameObject.tag);
+        if(collision.gameObject.tag == "buildings")
+        {
+            hp -= localVelocity.magnitude;
+        }
     }
 }

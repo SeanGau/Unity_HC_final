@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class SmallMapper : MonoBehaviour
 {
-    public LineRenderer lr;
+    
     public Transform target;
     public Transform player;
+    public Transform indi;
 
     public GameObject smallMap;
     public GameObject bigMap;
     private bool toggleMap = false;
-    
+    private LineRenderer lr;
+
     private void Awake()
     {
-        
+        lr = indi.gameObject.GetComponent<LineRenderer>();
     }
 
     private void LateUpdate()
@@ -29,7 +31,9 @@ public class SmallMapper : MonoBehaviour
         {
             smallMap.SetActive(toggleMap);
             toggleMap = !toggleMap;
-            float lwidth = toggleMap ? 5f:1.5f;
+            float lwidth = toggleMap ? 10f:1.5f;
+            float msize = toggleMap ? 250f : 50f;
+            indi.localScale = Vector3.one * msize;
             lr.startWidth = lr.endWidth = lwidth;
             bigMap.SetActive(toggleMap);
         }
