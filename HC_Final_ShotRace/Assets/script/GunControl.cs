@@ -14,7 +14,8 @@ public class GunControl : MonoBehaviour
     public AudioClip soundShot;
     [Header("開槍特效")]
     public GameObject MuzzleFlash;
-    [Header("射程")]
+    [Header("子彈")]
+    public GameObject Bullet;
 
     //float yRotation = 0f;
 
@@ -33,11 +34,13 @@ public class GunControl : MonoBehaviour
         {
             aud.PlayOneShot(soundShot, 0.8f);
             MuzzleFlash.SetActive(true);
+            Bullet.SetActive(true);
         }
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
             aud.Stop();
             MuzzleFlash.SetActive(false);
+            Bullet.SetActive(false);
         }
     }
 
