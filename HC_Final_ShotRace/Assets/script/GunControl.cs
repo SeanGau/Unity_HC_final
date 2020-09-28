@@ -17,9 +17,9 @@ public class GunControl : MonoBehaviour
     [Header("子彈")]
     public GameObject Bullet;
 
-    //float yRotation = 0f;
-
     public Transform Gun;
+    public ParticleSystem ps;
+    public Transform Point;
     public Animator ani;
     public AudioSource aud;
 
@@ -34,13 +34,24 @@ public class GunControl : MonoBehaviour
         {
             aud.PlayOneShot(soundShot, 0.8f);
             MuzzleFlash.SetActive(true);
-            Bullet.SetActive(true);
         }
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
             aud.Stop();
             MuzzleFlash.SetActive(false);
-            Bullet.SetActive(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            ps = Instantiate(Bullet, Point.position, Point.rotation).GetComponent<ParticleSystem>();
+            ps.loop = true;
+            ps.transform.SetParent(Point);
+        }
+        if (Input.GetKeyUp(KeyCode.Mouse0))
+        {
+            //ps = null;
+            ps.loop = false;
+            ps.transform.SetParent(null);
         }
     }
 
