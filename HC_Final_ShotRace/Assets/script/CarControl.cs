@@ -23,23 +23,47 @@ public class CarControl : MonoBehaviour
     public Image torqueImage;
     public Image hpImage;
 
+    public Vector3 lastCheckpoint = new Vector3(0, 0, 0);
+
     private Rigidbody rb;
     private float nowTorque = 0;
     private int nowGear = 0; // P: 0, D: 1, R: -1
+    private bool isDead = false;
+    private GameObject burnFire;
+    private Transform weaponPoint;
+
     Vector3 localVelocity = Vector3.zero;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        burnFire = GameObject.Find("BurnFire");
+        weaponPoint = GameObject.Find("weaponPoint").transform;
+        burnFire.SetActive(false);
     }
     void Start()
     {
         wheel_br.brakeTorque = wheel_bl.brakeTorque = wheel_fr.brakeTorque = wheel_fl.brakeTorque = 0;
     }
 
+    IEnumerator GetHit()
+    {
+        Vector3 speedHit = localVelocity;
+        yield return new WaitForSeconds(0.01f);
+        hp -= (speedHit - localVelocity).magnitude;
+        if (hp <= 0 && !isDead)
+        {
+            burnFire.SetActive(true);
+            isDead = true;
+            StartCoroutine(Re(false));
+        }
+    }
+
     void Update()
     {
-        Move();
         UpdateDashboard();
+        if (isDead)
+            return;
+        Move();
     }
     void UpdateDashboard()
     {
@@ -48,7 +72,22 @@ public class CarControl : MonoBehaviour
         speedText.text = dSpeed.ToString();
         torqueImage.fillAmount = Mathf.Abs(nowTorque) / accel * 0.5f;
         hpImage.fillAmount = hp / 100;
+    }
 
+    IEnumerator Re(bool m = true)
+    {
+        yield return new WaitForSeconds(3f);
+        if(Input.GetKey(KeyCode.R) == true || !m)
+        {
+            Vector3 rot = transform.rotation.eulerAngles;
+            rot.z = 0;
+            transform.rotation = Quaternion.Euler(rot);
+            transform.position = lastCheckpoint + new Vector3(0,1,0);
+            rb.velocity = Vector3.zero;
+            isDead = false;
+            hp = 100;
+            burnFire.SetActive(false);
+        }
     }
     private void Move()
     {
@@ -84,23 +123,33 @@ public class CarControl : MonoBehaviour
         {
             transform.position = new Vector3(0, 1, 0);
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            StartCoroutine(Re());
+        }
     }
 
     private void OnTriggerEnter(Collider cl)
     {
-      if(cl.gameObject.tag == "checkpoint")
-      {
-        checkcount++;
-        checkText.text = checkcount.ToString();
-      }
+        switch (cl.gameObject.tag)
+        {
+            case "checkpoint":
+                checkcount++;
+                checkText.text = checkcount.ToString();
+                lastCheckpoint = transform.position;
+                break;
+            case "weapon":
+                cl.gameObject.transform.SetParent(weaponPoint);
+                break;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        //print(collision.gameObject.tag);
         if(collision.gameObject.tag == "buildings")
         {
-            hp -= localVelocity.magnitude;
+            StartCoroutine(GetHit());
         }
     }
 }
