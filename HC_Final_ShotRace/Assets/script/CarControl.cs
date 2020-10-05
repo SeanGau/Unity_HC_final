@@ -24,20 +24,18 @@ public class CarControl : MonoBehaviour
     public Image hpImage;
 
     public Vector3 lastCheckpoint = new Vector3(0, 0, 0);
+    public GameObject burnFire;
+    public Transform weaponPoint;
 
     private Rigidbody rb;
     private float nowTorque = 0;
     private int nowGear = 0; // P: 0, D: 1, R: -1
     private bool isDead = false;
-    private GameObject burnFire;
-    private Transform weaponPoint;
 
     Vector3 localVelocity = Vector3.zero;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        burnFire = GameObject.Find("BurnFire");
-        weaponPoint = GameObject.Find("weaponPoint").transform;
         burnFire.SetActive(false);
     }
     void Start()
@@ -49,12 +47,15 @@ public class CarControl : MonoBehaviour
     {
         Vector3 speedHit = localVelocity;
         yield return new WaitForSeconds(0.01f);
-        hp -= (speedHit - localVelocity).magnitude;
+        float hurt = (speedHit - localVelocity).magnitude / 2;
+        hp -= hurt > 10 ? hurt : 0;
         if (hp <= 0 && !isDead)
         {
             burnFire.SetActive(true);
             isDead = true;
             StartCoroutine(Re(false));
+            rb.AddForce(transform.up * 1000 + rb.velocity*1000);
+            wheel_br.brakeTorque = wheel_bl.brakeTorque = breakv * 1000;
         }
     }
 
@@ -87,6 +88,8 @@ public class CarControl : MonoBehaviour
             isDead = false;
             hp = 100;
             burnFire.SetActive(false);
+            if (weaponPoint.childCount != 0)
+                Destroy(weaponPoint.GetChild(0).gameObject);
         }
     }
     private void Move()
@@ -140,6 +143,9 @@ public class CarControl : MonoBehaviour
                 lastCheckpoint = transform.position;
                 break;
             case "weapon":
+                if (weaponPoint.childCount != 0)
+                    return;
+                cl.gameObject.transform.position = weaponPoint.position;
                 cl.gameObject.transform.SetParent(weaponPoint);
                 break;
         }
