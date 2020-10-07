@@ -503,6 +503,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: "\u6A5F\u69CD"
       objectReference: {fileID: 0}
+    - target: {fileID: 4478430503754517004, guid: c3aa00e70266a5d4a908a53d67b88064,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 4478430503754517007, guid: c3aa00e70266a5d4a908a53d67b88064,
         type: 3}
       propertyPath: Bullet

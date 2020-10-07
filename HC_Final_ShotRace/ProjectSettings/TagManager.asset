@@ -6,7 +6,6 @@ TagManager:
   tags:
   - checkpoint
   - car
-  - "\u6A5F\u69CD"
   layers:
   - Default
   - TransparentFX
