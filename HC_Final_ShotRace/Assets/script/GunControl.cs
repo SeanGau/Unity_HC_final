@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using UnityEditor;
 using UnityEngine.UI;
 
@@ -18,10 +19,17 @@ public class GunControl : MonoBehaviour
     public GameObject Bullet;
 
     public Transform Gun;
-    public ParticleSystem ps;
     public Transform Point;
     public Animator ani;
     public AudioSource aud;
+
+
+    private IEnumerator oneshot()
+    {
+        var psN = Instantiate(Bullet, Point.position, Point.rotation).GetComponent<ParticleSystem>();
+        yield return new WaitForSeconds(1);
+        Destroy(psN);
+    }
 
     /// <summary>
     /// 射擊
@@ -42,17 +50,18 @@ public class GunControl : MonoBehaviour
             MuzzleFlash.SetActive(false);
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKey(KeyCode.Mouse0))
         {
-            ps = Instantiate(Bullet, Point.position, Point.rotation).GetComponent<ParticleSystem>();
-            ps.loop = true;
-            ps.transform.SetParent(Point);
+            StartCoroutine(oneshot());
+            //ps.loop = true;
+            //ps.transform.SetParent(Point);
+
         }
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
-            //ps = null;
-            ps.loop = false;
-            ps.transform.SetParent(null);
+
+            //ps.loop = false;
+            //ps.transform.SetParent(null);
         }
     }
 
@@ -60,7 +69,7 @@ public class GunControl : MonoBehaviour
     {
         Vector3 mousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
         Vector3 targetPos = new Vector3(mousePos.x - 0.5f,0 ,mousePos.y - 0.5f);
-        Gun.forward = targetPos;
+        Gun.forward = targetPos;        
     }
 
     [System.Obsolete]

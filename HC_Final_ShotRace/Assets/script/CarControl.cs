@@ -170,6 +170,11 @@ public class CarControl : MonoBehaviour
         }
     }
 
+    private void OnParticleCollision(GameObject other)
+    {
+        
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "buildings")
