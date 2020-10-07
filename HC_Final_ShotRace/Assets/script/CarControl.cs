@@ -43,12 +43,24 @@ public class CarControl : MonoBehaviour
         wheel_br.brakeTorque = wheel_bl.brakeTorque = wheel_fr.brakeTorque = wheel_fl.brakeTorque = 0;
     }
 
-    IEnumerator GetHit()
+    IEnumerator GetHit(GameObject src)
     {
-        Vector3 speedHit = localVelocity;
-        yield return new WaitForSeconds(0.01f);
-        float hurt = (speedHit - localVelocity).magnitude / 2;
-        hp -= hurt > 10 ? hurt : 0;
+        float hurt = 0;
+        if(src.tag == "buildings")
+        {
+            Vector3 speedHit = localVelocity;
+            yield return new WaitForSeconds(0.01f);
+            hurt = (speedHit - localVelocity).magnitude / 2;
+            if (hurt < 10)
+                hurt = 0;
+        }
+        /*
+        else if(src.tag == "bullet")
+        {
+            hurt = src.GetComponent<script>().atk;
+        }*/
+
+        hp -= hurt;
         if (hp <= 0 && !isDead)
         {
             burnFire.SetActive(true);
@@ -132,7 +144,6 @@ public class CarControl : MonoBehaviour
             StartCoroutine(Re());
         }
     }
-
     private void OnTriggerEnter(Collider cl)
     {
         switch (cl.gameObject.tag)
@@ -151,11 +162,21 @@ public class CarControl : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.gameObject.tag == "bullet")
+        {
+            StartCoroutine(GetHit(other.gameObject));
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "buildings")
         {
-            StartCoroutine(GetHit());
+            StartCoroutine(GetHit(collision.gameObject));
         }
     }
+
+    
 }

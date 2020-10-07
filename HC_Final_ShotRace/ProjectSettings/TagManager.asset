@@ -7,7 +7,6 @@ TagManager:
   - checkpoint
   - car
   - buildings
-  - FxTemporaire
   - weapon
   layers:
   - Default
