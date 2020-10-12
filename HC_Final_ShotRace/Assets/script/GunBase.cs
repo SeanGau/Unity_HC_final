@@ -29,13 +29,13 @@ public class GunBase : MonoBehaviour
         aud = GetComponent<AudioSource>();
     }
 
-    protected virtual IEnumerator Action()
+    protected virtual void Action()
     {
-        yield return null;
+        
     }
 
-    public void StartAction()
+    protected virtual void Update()
     {
-        StartCoroutine(Action());
+        Action();
     }
 }

@@ -8,7 +8,7 @@ public class MessileControl : GunBase
     /// <summary>
     /// 射擊
     /// </summary>
-    protected override IEnumerator Action()
+    protected override void Action()
     {
         bool leftmouse = Input.GetKey(KeyCode.Mouse0);
         ani.SetBool("射擊", leftmouse);
@@ -36,8 +36,6 @@ public class MessileControl : GunBase
             //ps.loop = false;
             //ps.transform.SetParent(null);
         }
-
-        return base.Action();
     }
 
     private void Mouse()
