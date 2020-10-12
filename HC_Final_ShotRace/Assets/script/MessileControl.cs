@@ -1,59 +1,43 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
+using System.Collections;
 
-public class MessileControl : MonoBehaviour
+public class MessileControl : GunBase
 {
-    [Header("靈敏度"), Range(0, 1000)]
-    public float mouseSensitivity = 100;
-    [Header("攻擊力"), Range(0, 500)]
-    public float attack = 20;
-    [Header("子彈數量"), Range(0, 500)]
-    public float bullet = 200;
-    [Header("音效")]
-    public AudioClip soundShot;
-    [Header("開槍特效")]
-    public GameObject Smoke;
-    [Header("子彈")]
-    public GameObject Bullet;
-
-    public Transform Gun;
-    public ParticleSystem ps;
-    public Transform Point;
-    public Animator ani;
-    public AudioSource aud;
-
     /// <summary>
     /// 射擊
     /// </summary>
-    [System.Obsolete]
-    private void shot()
+    protected override IEnumerator Action()
     {
         bool leftmouse = Input.GetKey(KeyCode.Mouse0);
         ani.SetBool("射擊", leftmouse);
         if (Input.GetKey(KeyCode.Mouse0) && !aud.isPlaying)
         {
-            aud.PlayOneShot(soundShot, 0.8f);
-            Smoke.SetActive(true);
+            aud.PlayOneShot(soundShot, volume);
+            Effects.SetActive(true);
         }
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
             aud.Stop();
-            Smoke.SetActive(false);
+            Effects.SetActive(false);
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKey(KeyCode.Mouse0))
         {
-            ps = Instantiate(Bullet, Point.position, Point.rotation).GetComponent<ParticleSystem>();
-            ps.loop = true;
-            ps.transform.SetParent(Point);
+            //StartCoroutine(oneshot());
+            //ps.loop = true;
+            //ps.transform.SetParent(Point);
+
         }
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
-            //ps = null;
-            ps.loop = false;
-            ps.transform.SetParent(null);
+
+            //ps.loop = false;
+            //ps.transform.SetParent(null);
         }
+
+        return base.Action();
     }
 
     private void Mouse()
@@ -66,7 +50,6 @@ public class MessileControl : MonoBehaviour
     [System.Obsolete]
     private void Update()
     {
-        shot();
         Mouse();
     }
     private void Start()
