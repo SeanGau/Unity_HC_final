@@ -28,7 +28,7 @@ public class GunControl : GunBase
             Effects.SetActive(false);
         }
 
-        if (Input.GetKey(KeyCode.Mouse0))
+        if (Input.GetKey(KeyCode.Mouse0) && bullet > 0f)
         {
             StartCoroutine(oneshot());
             //ps.loop = true;

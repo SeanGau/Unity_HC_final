@@ -8,36 +8,40 @@ public class MessileControl : GunBase
     /// <summary>
     /// 射擊
     /// </summary>
-    protected override void Action()
+    private void shot()
     {
         bool leftmouse = Input.GetKey(KeyCode.Mouse0);
-        ani.SetBool("射擊", leftmouse);
-        if (Input.GetKey(KeyCode.Mouse0) && !aud.isPlaying)
+        ani.SetBool("發射", leftmouse);
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            aud.PlayOneShot(soundShot, volume);
             Effects.SetActive(true);
         }
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
-            aud.Stop();
             Effects.SetActive(false);
         }
 
-        if (Input.GetKey(KeyCode.Mouse0))
+        if (Input.GetKey(KeyCode.Mouse0) && bullet > 0f)
         {
             //StartCoroutine(oneshot());
             //ps.loop = true;
             //ps.transform.SetParent(Point);
-
         }
+
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
-
             //ps.loop = false;
             //ps.transform.SetParent(null);
         }
     }
 
+    protected override void Action()
+    {
+        if (Input.GetKey(KeyCode.Mouse0) && !aud.isPlaying)
+        {
+            aud.PlayOneShot(soundShot, volume);
+        }
+    }
     private void Mouse()
     {
         Vector3 mousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
@@ -45,9 +49,10 @@ public class MessileControl : GunBase
         Gun.forward = targetPos;
     }
 
-    [System.Obsolete]
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
+        shot();
         Mouse();
     }
     private void Start()
