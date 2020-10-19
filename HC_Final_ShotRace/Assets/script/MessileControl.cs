@@ -1,71 +1,67 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
+using System.Collections;
 
-public class MessileControl : MonoBehaviour
+public class MessileControl : GunBase
 {
-    [Header("靈敏度"), Range(0, 1000)]
-    public float mouseSensitivity = 100;
-    [Header("攻擊力"), Range(0, 500)]
-    public float attack = 20;
-    [Header("子彈數量"), Range(0, 500)]
-    public float bullet = 200;
-    [Header("音效")]
-    public AudioClip soundShot;
-    [Header("開槍特效")]
-    public GameObject Smoke;
-    [Header("子彈")]
-    public GameObject Bullet;
-
-    public Transform Gun;
-    public ParticleSystem ps;
-    public Transform Point;
-    public Animator ani;
-    public AudioSource aud;
-
     /// <summary>
     /// 射擊
     /// </summary>
-    [System.Obsolete]
     private void shot()
     {
         bool leftmouse = Input.GetKey(KeyCode.Mouse0);
-        ani.SetBool("射擊", leftmouse);
-        if (Input.GetKey(KeyCode.Mouse0) && !aud.isPlaying)
-        {
-            aud.PlayOneShot(soundShot, 0.8f);
-            Smoke.SetActive(true);
-        }
-        if (Input.GetKeyUp(KeyCode.Mouse0))
-        {
-            aud.Stop();
-            Smoke.SetActive(false);
-        }
-
+        ani.SetBool("發射", leftmouse);
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            ps = Instantiate(Bullet, Point.position, Point.rotation).GetComponent<ParticleSystem>();
-            ps.loop = true;
-            ps.transform.SetParent(Point);
+            Effects.SetActive(true);
         }
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
-            //ps = null;
-            ps.loop = false;
-            ps.transform.SetParent(null);
+            Effects.SetActive(false);
+        }
+
+        if (Input.GetKey(KeyCode.Mouse0) && bullet > 0f)
+        {
+            //StartCoroutine(oneshot());
+            //ps.loop = true;
+            //ps.transform.SetParent(Point);
+        }
+
+        if (Input.GetKeyUp(KeyCode.Mouse0))
+        {
+            //ps.loop = false;
+            //ps.transform.SetParent(null);
         }
     }
 
+    protected override void Action()
+    {
+        if (Input.GetKey(KeyCode.Mouse0) && !aud.isPlaying)
+        {
+            aud.PlayOneShot(soundShot, volume);
+        }
+    }
     private void Mouse()
     {
-        Vector3 mousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-        Vector3 targetPos = new Vector3(mousePos.x - 0.5f, 90, mousePos.y - 0.5f);
-        Gun.forward = targetPos;
+        //Vector3 mousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+        //Vector3 targetPos = new Vector3(mousePos.x - 0.5f, 90, mousePos.y - 0.5f);
+        //Gun.forward = targetPos;
+
+        Vector3 posMouse = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10);
+        Vector3 posWorld = Camera.main.ScreenToWorldPoint(posMouse);
+        //Vector3 posMouse = new Vector3(posWorld.x - 0.5f, 0, posWorld.y - 0.5f);
+
+        posWorld.y = transform.position.y;
+
+        Vector3 direction = posWorld - transform.position;
+
+        transform.forward = direction;
     }
 
-    [System.Obsolete]
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         shot();
         Mouse();
     }
