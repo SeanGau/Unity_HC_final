@@ -8,6 +8,8 @@ public class GunControl : GunBase
     private IEnumerator oneshot()
     {
         var psN = Instantiate(Bullet, Point.position, Point.rotation).GetComponent<ParticleSystem>();
+        Rigidbody psrb = psN.GetComponent<Rigidbody>();
+        psrb.velocity = GetComponentInParent<Rigidbody>().velocity;
         yield return new WaitForSeconds(1);
         Destroy(psN);
     }
@@ -23,7 +25,7 @@ public class GunControl : GunBase
         {
             Effects.SetActive(true);
         }
-        if (Input.GetKeyUp(KeyCode.Mouse0))
+        else
         {
             Effects.SetActive(false);
         }
@@ -31,14 +33,7 @@ public class GunControl : GunBase
         if (Input.GetKey(KeyCode.Mouse0) && bullet > 0f)
         {
             StartCoroutine(oneshot());
-            //ps.loop = true;
-            //ps.transform.SetParent(Point);
 
-        }
-        if (Input.GetKeyUp(KeyCode.Mouse0))
-        {
-            //ps.loop = false;
-            //ps.transform.SetParent(null);
         }
     }
 
@@ -70,10 +65,15 @@ public class GunControl : GunBase
 
     protected override void Update()
     {
-        base.Update();
-        shot();
         Mouse();
+        base.Update();
     }
+
+    private void FixedUpdate()
+    {
+        shot();
+    }
+
     private void Start()
     {
         

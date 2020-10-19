@@ -45,6 +45,7 @@ public class CarControl : MonoBehaviour
 
     IEnumerator GetHit(GameObject src)
     {
+        print(src.tag);
         float hurt = 0;
         if(src.tag == "buildings")
         {
@@ -54,11 +55,12 @@ public class CarControl : MonoBehaviour
             if (hurt < 10)
                 hurt = 0;
         }
-        /*
+        
         else if(src.tag == "bullet")
         {
-            hurt = src.GetComponent<script>().atk;
-        }*/
+            hurt = src.GetComponent<BulletBase>().attack;
+            yield return null;
+        }
 
         hp -= hurt;
         if (hp <= 0 && !isDead)
@@ -158,6 +160,7 @@ public class CarControl : MonoBehaviour
                     return;
                 cl.gameObject.transform.position = weaponPoint.position;
                 cl.gameObject.transform.SetParent(weaponPoint);
+                //cl.gameObject.GetComponent<GunControl>().isSet = true;
                 break;
         }
     }
@@ -172,7 +175,7 @@ public class CarControl : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
-        
+        StartCoroutine(GetHit(other));
     }
 
     private void OnCollisionEnter(Collision collision)
