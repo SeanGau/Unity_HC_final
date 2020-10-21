@@ -45,6 +45,7 @@ public class CarControl : MonoBehaviour
 
     IEnumerator GetHit(GameObject src)
     {
+        print(src.tag);
         float hurt = 0;
         if(src.tag == "buildings")
         {
@@ -54,11 +55,12 @@ public class CarControl : MonoBehaviour
             if (hurt < 10)
                 hurt = 0;
         }
-        /*
+        
         else if(src.tag == "bullet")
         {
-            hurt = src.GetComponent<script>().atk;
-        }*/
+            hurt = src.GetComponent<BulletBase>().attack;
+            yield return null;
+        }
 
         hp -= hurt;
         if (hp <= 0 && !isDead)
@@ -111,12 +113,12 @@ public class CarControl : MonoBehaviour
 
         float v = Input.GetAxis("Vertical");
         nowTorque = Mathf.Lerp(nowTorque, accel * v, 0.5f * Time.deltaTime * 50);
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space)) //手煞車
         {
             rb.AddForce(rb.velocity * -breakv * Time.deltaTime * 5);
             wheel_br.brakeTorque = wheel_bl.brakeTorque = breakv * 1000;
         }
-        else if(localVelocity.z * v < -10f || v==0)
+        else if(localVelocity.z * v < -10f || v==0) //反向或滑行
         {
             rb.AddForce(rb.velocity * -breakv * Time.deltaTime);
             wheel_br.brakeTorque = wheel_bl.brakeTorque = breakv * 1000;
@@ -125,12 +127,17 @@ public class CarControl : MonoBehaviour
         {
             wheel_br.brakeTorque = wheel_bl.brakeTorque = 0;
         }
+        wheel_br.motorTorque = wheel_bl.motorTorque = wheel_fr.motorTorque = wheel_fl.motorTorque = nowTorque;
 
-        int dSpeed = (int)Mathf.Sqrt(rb.velocity.x * rb.velocity.x + rb.velocity.z * rb.velocity.z);
-        if (dSpeed < speedLimit)
-            wheel_br.motorTorque = wheel_bl.motorTorque = wheel_fr.motorTorque = wheel_fl.motorTorque = nowTorque;
+        float dSpeed = speedLimit - Mathf.Sqrt(rb.velocity.x * rb.velocity.x + rb.velocity.z * rb.velocity.z);
+        if (dSpeed > 0)
+        {
+            rb.AddForce(transform.forward * v * Time.deltaTime * accel * dSpeed);
+        }
         else
-            wheel_br.motorTorque = wheel_bl.motorTorque = wheel_fr.motorTorque = wheel_fl.motorTorque = 0;
+        {
+            rb.AddForce(transform.forward * v * Time.deltaTime * accel * dSpeed * dSpeed * -1);
+        }
         float h = Input.GetAxis("Horizontal");
         wheel_fr.steerAngle = wheel_fl.steerAngle =  h * steer;
 
@@ -158,6 +165,7 @@ public class CarControl : MonoBehaviour
                     return;
                 cl.gameObject.transform.position = weaponPoint.position;
                 cl.gameObject.transform.SetParent(weaponPoint);
+                //cl.gameObject.GetComponent<GunControl>().isSet = true;
                 break;
         }
     }
@@ -172,7 +180,7 @@ public class CarControl : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
-        
+        StartCoroutine(GetHit(other));
     }
 
     private void OnCollisionEnter(Collision collision)

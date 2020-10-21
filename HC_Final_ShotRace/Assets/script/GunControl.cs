@@ -8,6 +8,8 @@ public class GunControl : GunBase
     private IEnumerator oneshot()
     {
         var psN = Instantiate(Bullet, Point.position, Point.rotation).GetComponent<ParticleSystem>();
+        Rigidbody psrb = psN.GetComponent<Rigidbody>();
+        psrb.velocity = GetComponentInParent<Rigidbody>().velocity;
         yield return new WaitForSeconds(1);
         Destroy(psN);
     }
@@ -23,7 +25,7 @@ public class GunControl : GunBase
         {
             Effects.SetActive(true);
         }
-        if (Input.GetKeyUp(KeyCode.Mouse0))
+        else
         {
             Effects.SetActive(false);
         }
@@ -31,14 +33,7 @@ public class GunControl : GunBase
         if (Input.GetKey(KeyCode.Mouse0) && bullet > 0f)
         {
             StartCoroutine(oneshot());
-            //ps.loop = true;
-            //ps.transform.SetParent(Point);
 
-        }
-        if (Input.GetKeyUp(KeyCode.Mouse0))
-        {
-            //ps.loop = false;
-            //ps.transform.SetParent(null);
         }
     }
 
@@ -57,6 +52,7 @@ public class GunControl : GunBase
 
     private void Mouse()
     {
+        /*
         Vector3 posMouse = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10);
         Vector3 posWorld = Camera.main.ScreenToWorldPoint(posMouse);
         //Vector3 posMouse = new Vector3(posWorld.x - 0.5f, 0, posWorld.y - 0.5f);
@@ -65,15 +61,23 @@ public class GunControl : GunBase
 
         Vector3 direction = posWorld - transform.position;
 
-        transform.forward = direction;
-    }
+        transform.forward = direction;*/
 
+        Vector3 mousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+        Vector3 targetPos = new Vector3(mousePos.x - 0.5f, 0, mousePos.y - 0.5f);
+        transform.forward = targetPos;
+    }
     protected override void Update()
     {
-        base.Update();
-        shot();
         Mouse();
+        base.Update();
     }
+
+    private void FixedUpdate()
+    {
+        shot();
+    }
+
     private void Start()
     {
         

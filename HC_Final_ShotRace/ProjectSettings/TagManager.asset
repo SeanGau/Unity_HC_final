@@ -8,6 +8,7 @@ TagManager:
   - car
   - buildings
   - weapon
+  - bullet
   layers:
   - Default
   - TransparentFX
