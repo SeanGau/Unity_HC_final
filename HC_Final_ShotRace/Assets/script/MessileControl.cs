@@ -14,24 +14,23 @@ public class MessileControl : GunBase
         ani.SetBool("發射", leftmouse);
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            Effects.SetActive(true);
+            //Effects.SetActive(true);
         }
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
-            Effects.SetActive(false);
+            //Effects.SetActive(false);
         }
 
-        if (Input.GetKey(KeyCode.Mouse0) && bullet > 0f)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && bullet > 0f)
         {
-            //StartCoroutine(oneshot());
-            //ps.loop = true;
-            //ps.transform.SetParent(Point);
+            var Missile = Instantiate(Bullet, Point.position, Point.rotation);
+            Missile.SetActive(true);
         }
 
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
-            //ps.loop = false;
-            //ps.transform.SetParent(null);
+            var Missile = Instantiate(Bullet, Point.position, Point.rotation);
+            Missile.SetActive(false);
         }
     }
 
