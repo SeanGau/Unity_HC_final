@@ -10,6 +10,8 @@ public class BulletBase : MonoBehaviour
     public int cat = 1;
     [Header("射程"), Range(10, 200)]
     public float distance = 50;
+    [Header("爆炸特效")]
+    public GameObject Effects;
 
     public Rigidbody rig;
     private Vector3 posA;
@@ -20,7 +22,7 @@ public class BulletBase : MonoBehaviour
         float dis = Vector3.Distance(posA,transform.position);
         if (dis >= distance)
         {
-
+            Effects.SetActive(true);
         }
     }
 
