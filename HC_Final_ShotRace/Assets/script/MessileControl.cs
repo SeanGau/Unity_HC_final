@@ -12,27 +12,12 @@ public class MessileControl : GunBase
     {
         bool leftmouse = Input.GetKey(KeyCode.Mouse0);
         ani.SetBool("發射", leftmouse);
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            Effects.SetActive(true);
-        }
-        if (Input.GetKeyUp(KeyCode.Mouse0))
-        {
-            Effects.SetActive(false);
-        }
 
-        if (Input.GetKey(KeyCode.Mouse0) && bullet > 0f)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && bullet > 0)
         {
-            //StartCoroutine(oneshot());
-            //ps.loop = true;
-            //ps.transform.SetParent(Point);
-        }
-
-        if (Input.GetKeyUp(KeyCode.Mouse0))
-        {
-            //ps.loop = false;
-            //ps.transform.SetParent(null);
-        }
+            var Missile = Instantiate(Bullet, Point.position, Point.rotation);
+            Missile.SetActive(true);
+        }        
     }
 
     protected override void Action()
