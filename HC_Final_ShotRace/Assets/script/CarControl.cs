@@ -162,21 +162,16 @@ public class CarControl : MonoBehaviour
                 break;
             case "weapon":
                 if (weaponPoint.childCount != 0)
-                    return;
+                    Destroy(weaponPoint.GetChild(0).gameObject);
                 cl.gameObject.transform.position = weaponPoint.position;
                 cl.gameObject.transform.SetParent(weaponPoint);
-                //cl.gameObject.GetComponent<GunControl>().isSet = true;
+                cl.transform.GetChild(0).GetComponent<GunBase>().Set();
+                break;
+            case "bullet":
+                StartCoroutine(GetHit(cl.gameObject));
                 break;
         }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if(other.gameObject.tag == "bullet")
-        {
-            StartCoroutine(GetHit(other.gameObject));
-        }
-    }
+    }    
 
     private void OnParticleCollision(GameObject other)
     {

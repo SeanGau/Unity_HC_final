@@ -5,7 +5,7 @@ public class BulletBase : MonoBehaviour
 {
     [Header("攻擊力"), Range(0, 100)]
     public float attack = 2.5f;
-    [Header("速度"), Range(0, 500)]
+    [Header("速度"), Range(0, 5000)]
     public float speed = 400;
     [Header("類別"), Range(1,3)]
     public int cat = 1;
@@ -62,8 +62,9 @@ public class BulletBase : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
         isHit = true;
+
     }
 }

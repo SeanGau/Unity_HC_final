@@ -17,6 +17,8 @@ public class MessileControl : GunBase
         {
             var Missile = Instantiate(Bullet, Point.position, Point.rotation);
             Missile.SetActive(true);
+            Rigidbody msrb = Missile.GetComponent<Rigidbody>();
+            msrb.velocity = GetComponentInParent<Rigidbody>().velocity;
         }        
     }
 
@@ -29,24 +31,14 @@ public class MessileControl : GunBase
     }
     private void Mouse()
     {
-        //Vector3 mousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-        //Vector3 targetPos = new Vector3(mousePos.x - 0.5f, 90, mousePos.y - 0.5f);
-        //Gun.forward = targetPos;
-
-        Vector3 posMouse = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10);
-        Vector3 posWorld = Camera.main.ScreenToWorldPoint(posMouse);
-        //Vector3 posMouse = new Vector3(posWorld.x - 0.5f, 0, posWorld.y - 0.5f);
-
-        posWorld.y = transform.position.y;
-
-        Vector3 direction = posWorld - transform.position;
-
-        transform.forward = direction;
+        Vector3 mousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+        Vector3 targetPos = new Vector3(mousePos.x - 0.5f, 0, mousePos.y - 0.5f);
+        transform.forward = targetPos;
     }
 
     protected override void Update()
     {
-        base.Update();
+        if (!isSet) return;
         shot();
         Mouse();
     }

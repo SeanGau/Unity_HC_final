@@ -20,11 +20,18 @@ public class GunBase : MonoBehaviour
     public Transform Gun;
     public Transform Point;
     public Animator ani;
-    public bool isSet = true;
+    protected bool isSet = false;
     protected AudioSource aud;
+
+    public void Set()
+    {
+        isSet = true;
+        print("Set");
+    }
 
     protected virtual void Awake()
     {
+        isSet = false;
         aud = GetComponent<AudioSource>();
     }
 

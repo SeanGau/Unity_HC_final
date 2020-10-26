@@ -68,12 +68,14 @@ public class GunControl : GunBase
     }
     protected override void Update()
     {
+        if (!isSet) return;
         Mouse();
         base.Update();
     }
 
     private void FixedUpdate()
     {
+        if (!isSet) return;
         shot();
     }
 
