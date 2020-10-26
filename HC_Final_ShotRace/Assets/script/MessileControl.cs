@@ -17,13 +17,7 @@ public class MessileControl : GunBase
         {
             var Missile = Instantiate(Bullet, Point.position, Point.rotation);
             Missile.SetActive(true);
-        }
-
-        if (Input.GetKeyUp(KeyCode.Mouse0))
-        {
-            var Missile = Instantiate(Bullet, Point.position, Point.rotation);
-            Missile.SetActive(false);
-        }
+        }        
     }
 
     protected override void Action()

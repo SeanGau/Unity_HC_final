@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class BulletBase : MonoBehaviour
 {
@@ -12,23 +13,41 @@ public class BulletBase : MonoBehaviour
     public float distance = 50;
     [Header("爆炸特效")]
     public GameObject Effects;
+    [Header("爆炸音效")]
+    public AudioClip Boom;
+    [Header("音量")]
+    public float volume = 1;
 
     public Rigidbody rig;
     private Vector3 posA;
+    public Transform Point;
+    public AudioSource aud;
+    bool isHit= false;
 
-
-    private void Distance()
+    private IEnumerator Distance()
     {
         float dis = Vector3.Distance(posA,transform.position);
-        if (dis >= distance)
+        if (dis >= distance || isHit)
         {
-            Effects.SetActive(true);
+            var boomb = Instantiate(Effects, Point.position, Point.rotation);
+            boomb.SetActive(true);
+            boomb.GetComponent<AudioSource>().PlayOneShot(Boom, volume);
+            isHit = true;
+
+            Destroy(boomb,1);
+
+            Destroy(gameObject);
+
+            yield return null;
         }
     }
 
     private void Update()
     {
-        Distance();
+        if (cat == 1)
+        {
+            StartCoroutine(Distance());
+        }
     }
 
     private void Awake()
@@ -41,5 +60,10 @@ public class BulletBase : MonoBehaviour
             posA = transform.position;
         }
         
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        isHit = true;
     }
 }

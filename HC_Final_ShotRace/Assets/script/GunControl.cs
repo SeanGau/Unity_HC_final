@@ -33,7 +33,6 @@ public class GunControl : GunBase
         if (Input.GetKey(KeyCode.Mouse0) && bullet > 0f)
         {
             StartCoroutine(oneshot());
-
         }
     }
 
