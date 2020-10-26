@@ -12,12 +12,22 @@ namespace Com.B1t.ShotRace
         // 玩家離開遊戲室時, 把他帶回到遊戲場入口
         public override void OnLeftRoom()
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene("選單");
         }
         public void LeaveRoom()
         {
             PhotonNetwork.LeaveRoom();
         }
-        
+
+
+        public override void OnPlayerEnteredRoom(Player other)
+        {
+
+        }
+
+        public override void OnPlayerLeftRoom(Player other)
+        {
+
+        }
     }
 }

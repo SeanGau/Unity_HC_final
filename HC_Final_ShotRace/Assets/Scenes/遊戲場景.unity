@@ -11619,7 +11619,7 @@ GameObject:
   - component: {fileID: 891447658}
   - component: {fileID: 891447657}
   m_Layer: 5
-  m_Name: Button
+  m_Name: LeaveButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11687,7 +11687,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 891447658}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 956432479}
+        m_MethodName: LeaveRoom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &891447658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11799,6 +11810,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &956432479 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1412621862113217601, guid: 78d737f20657f854384bd612c299025b,
+    type: 3}
+  m_PrefabInstance: {fileID: 47421732013066315}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08889b1410dc6e745b128bc162427f97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &969202467
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,10 +18,10 @@ public class MapCreator : MonoBehaviour
             int rid = (int)(Random.Range(0f, 1f) * (buildings.Length-1));
             Vector3 buildPos = new Vector3(ground.localScale.x * Random.Range(limit.x, limit.y), 0, ground.localScale.z * Random.Range(limit.x, limit.y));
             Quaternion rot = Quaternion.Euler(0, 90 * Random.Range(0, 4), 0);
-            print(i+": "+rot);
+            //print(i+": "+rot);
             GameObject obj = Object.Instantiate(buildings[rid], buildPos, rot);
             
-            print("building:" + rid + " pos:" + buildPos);
+            //print("building:" + rid + " pos:" + buildPos);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Photon.Pun;
 using UnityEngine;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 namespace Com.B1t.ShotRace
 {
@@ -75,6 +76,7 @@ namespace Com.B1t.ShotRace
         public override void OnJoinedRoom()
         {
             Debug.Log("PUN 呼叫 OnJoinedRoom(), 已成功進入遊戲室中.");
+            SceneManager.LoadScene("遊戲場景");
         }
     }
 }
