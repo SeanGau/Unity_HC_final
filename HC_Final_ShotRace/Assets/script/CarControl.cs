@@ -27,6 +27,8 @@ public class CarControl : MonoBehaviour
 
     public Vector3 lastCheckpoint = new Vector3(0, 0, 0);
     public GameObject burnFire;
+    public GameObject endScene;
+    public Text endCal;
     public Transform weaponPoint;
 
     private Rigidbody rb;
@@ -75,9 +77,11 @@ public class CarControl : MonoBehaviour
         {
             burnFire.SetActive(true);
             isDead = true;
-            StartCoroutine(Re(false));
+            //StartCoroutine(Re(false));
             rb.AddForce(transform.up * 1000 + rb.velocity*1000);
             wheel_br.brakeTorque = wheel_bl.brakeTorque = breakv * 1000;
+            endCal.text = "Checkpoints: " + checkcount + " / " + (Time.time - GameManager.startTime)+"secs";
+            endScene.SetActive(true);
         }
     }
 
