@@ -6,16 +6,18 @@ public class SmallMapper : MonoBehaviour
 {
     
     public Transform target;
-    public Transform player;
-    public Transform indi;
+    private Transform player;
+    private Transform indi;
 
     public GameObject smallMap;
     public GameObject bigMap;
     private bool toggleMap = false;
     private LineRenderer lr;
-
-    private void Awake()
+    
+    private void Start()
     {
+        player = GameManager.playerCar.transform;
+        indi = player.Find("MapIndicator").transform;
         lr = indi.gameObject.GetComponent<LineRenderer>();
     }
 

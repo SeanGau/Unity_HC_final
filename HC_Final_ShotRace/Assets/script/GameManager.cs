@@ -1,33 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Photon.Pun;
-using Photon.Realtime;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-namespace Com.B1t.ShotRace
+public class GameManager : MonoBehaviour
 {
-    public class GameManager : MonoBehaviourPunCallbacks
+    public GameObject[] carSets;
+    public static GameObject playerCar;
+
+    private void Awake()
     {
-        // 玩家離開遊戲室時, 把他帶回到遊戲場入口
-        public override void OnLeftRoom()
-        {
-            SceneManager.LoadScene("選單");
-        }
-        public void LeaveRoom()
-        {
-            PhotonNetwork.LeaveRoom();
-        }
+        int _nowCar = CarShowCamera.nowCar;
+        playerCar = Instantiate(carSets[_nowCar], new Vector3(0, 1, 0), new Quaternion(0, 0, 0, 0));
+        playerCar.SetActive(true);
+    }
 
-
-        public override void OnPlayerEnteredRoom(Player other)
-        {
-
-        }
-
-        public override void OnPlayerLeftRoom(Player other)
-        {
-
-        }
+    private void Start()
+    {
     }
 }

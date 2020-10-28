@@ -1,7 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class CarAuto : MonoBehaviour
 {
@@ -19,8 +18,6 @@ public class CarAuto : MonoBehaviour
     public Transform weaponPoint;
 
     private Rigidbody rb;
-    private float nowTorque = 0;
-    private int nowGear = 0; // P: 0, D: 1, R: -1
     private bool isDead = false;
 
     Vector3 localVelocity = Vector3.zero;
@@ -122,7 +119,5 @@ public class CarAuto : MonoBehaviour
         {
             StartCoroutine(GetHit(collision.gameObject));
         }
-    }
-
-    
+    }    
 }

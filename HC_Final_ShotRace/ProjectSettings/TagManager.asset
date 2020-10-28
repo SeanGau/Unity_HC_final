@@ -9,6 +9,7 @@ TagManager:
   - buildings
   - weapon
   - bullet
+  - zombie
   layers:
   - Default
   - TransparentFX

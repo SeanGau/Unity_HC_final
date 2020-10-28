@@ -13,8 +13,9 @@ public class CarShowCamera : MonoBehaviour
 
     void Start()
     {
-       carAmount = carSet.childCount;
-       print(carAmount);
+        carAmount = carSet.childCount;
+        print(carAmount);
+        carName.text = carSet.GetChild(nowCar).name;
     }
 
     public void ChangeCar(bool goRight = true)
@@ -23,7 +24,7 @@ public class CarShowCamera : MonoBehaviour
         nowCar=(nowCar+dir)%carAmount;
         if(nowCar < 0)
           nowCar = carAmount-1;
-        carName.text = "Car" + (nowCar+1);
+        carName.text = carSet.GetChild(nowCar).name;
     }
 
 

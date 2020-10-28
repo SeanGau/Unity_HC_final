@@ -22,6 +22,8 @@ public class CarControl : MonoBehaviour
     public Text speedText;
     public Image torqueImage;
     public Image hpImage;
+    public Text gunName;
+    public Text bulletCount;
 
     public Vector3 lastCheckpoint = new Vector3(0, 0, 0);
     public GameObject burnFire;
@@ -29,7 +31,6 @@ public class CarControl : MonoBehaviour
 
     private Rigidbody rb;
     private float nowTorque = 0;
-    private int nowGear = 0; // P: 0, D: 1, R: -1
     private bool isDead = false;
 
     Vector3 localVelocity = Vector3.zero;
@@ -41,6 +42,7 @@ public class CarControl : MonoBehaviour
     void Start()
     {
         wheel_br.brakeTorque = wheel_bl.brakeTorque = wheel_fr.brakeTorque = wheel_fl.brakeTorque = 0;
+        ChangeWeapon(2);
     }
 
     IEnumerator GetHit(GameObject src)
@@ -62,6 +64,11 @@ public class CarControl : MonoBehaviour
             yield return null;
         }
 
+        else if(src.tag == "zombie")
+        {
+            hurt = 5;
+        }
+
         hp -= hurt;
         if (hp <= 0 && !isDead)
         {
@@ -79,6 +86,25 @@ public class CarControl : MonoBehaviour
         if (isDead)
             return;
         Move();
+    }
+
+    public void ChangeWeapon(int cat)
+    {
+        switch (cat)
+        {
+            case 1: //messil
+                weaponPoint.GetChild(0).gameObject.SetActive(false);
+                weaponPoint.GetChild(1).gameObject.SetActive(true);
+                gunName.text = "missile";
+                bulletCount.text = weaponPoint.GetComponentInChildren<MessileControl>().bullet.ToString();
+                break;
+            case 2:
+                weaponPoint.GetChild(0).gameObject.SetActive(true);
+                weaponPoint.GetChild(1).gameObject.SetActive(false);
+                bulletCount.text = "n/a";
+                gunName.text = "minigun";
+                break; //minigun
+        }
     }
     void UpdateDashboard()
     {
@@ -102,8 +128,6 @@ public class CarControl : MonoBehaviour
             isDead = false;
             hp = 100;
             burnFire.SetActive(false);
-            if (weaponPoint.childCount != 0)
-                Destroy(weaponPoint.GetChild(0).gameObject);
         }
     }
     private void Move()
@@ -161,14 +185,19 @@ public class CarControl : MonoBehaviour
                 lastCheckpoint = transform.position;
                 break;
             case "weapon":
+                /*
                 if (weaponPoint.childCount != 0)
-                    Destroy(weaponPoint.GetChild(0).gameObject);
+                    return;
+                cl.GetComponent<BoxCollider>().isTrigger = false;
                 cl.gameObject.transform.position = weaponPoint.position;
                 cl.gameObject.transform.SetParent(weaponPoint);
-                cl.transform.GetChild(0).GetComponent<GunBase>().Set();
+                cl.transform.GetChild(0).GetComponent<GunBase>().Set();*/
+                Destroy(cl.gameObject);
+                weaponPoint.GetChild(1).GetComponentInChildren<GunBase>().bullet+=20;
+                ChangeWeapon(1);
                 break;
             case "bullet":
-                StartCoroutine(GetHit(cl.gameObject));
+                //StartCoroutine(GetHit(cl.gameObject));
                 break;
         }
     }    
@@ -180,11 +209,6 @@ public class CarControl : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "buildings")
-        {
-            StartCoroutine(GetHit(collision.gameObject));
-        }
-    }
-
-    
+        StartCoroutine(GetHit(collision.gameObject));
+    }        
 }

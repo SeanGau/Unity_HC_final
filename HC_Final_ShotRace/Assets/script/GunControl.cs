@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
-using UnityEngine.UI;
 
 public class GunControl : GunBase
 {
@@ -10,7 +9,9 @@ public class GunControl : GunBase
         var psN = Instantiate(Bullet, Point.position, Point.rotation).GetComponent<ParticleSystem>();
         Rigidbody psrb = psN.GetComponent<Rigidbody>();
         psrb.velocity = GetComponentInParent<Rigidbody>().velocity;
-        yield return new WaitForSeconds(1);
+        while(psN.IsAlive())
+            yield return null;
+        
         Destroy(psN);
     }
 
@@ -49,27 +50,9 @@ public class GunControl : GunBase
         }
     }
 
-    private void Mouse()
-    {
-        /*
-        Vector3 posMouse = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10);
-        Vector3 posWorld = Camera.main.ScreenToWorldPoint(posMouse);
-        //Vector3 posMouse = new Vector3(posWorld.x - 0.5f, 0, posWorld.y - 0.5f);
-
-        posWorld.y = transform.position.y;
-
-        Vector3 direction = posWorld - transform.position;
-
-        transform.forward = direction;*/
-
-        Vector3 mousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-        Vector3 targetPos = new Vector3(mousePos.x - 0.5f, 0, mousePos.y - 0.5f);
-        transform.forward = targetPos;
-    }
     protected override void Update()
     {
         if (!isSet) return;
-        Mouse();
         base.Update();
     }
 
@@ -77,10 +60,5 @@ public class GunControl : GunBase
     {
         if (!isSet) return;
         shot();
-    }
-
-    private void Start()
-    {
-        
     }
 }

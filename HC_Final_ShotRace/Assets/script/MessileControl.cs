@@ -8,6 +8,7 @@ public class MessileControl : GunBase
     /// <summary>
     /// 射擊
     /// </summary>
+    public GameObject minigun;
     private void shot()
     {
         bool leftmouse = Input.GetKey(KeyCode.Mouse0);
@@ -19,7 +20,13 @@ public class MessileControl : GunBase
             Missile.SetActive(true);
             Rigidbody msrb = Missile.GetComponent<Rigidbody>();
             msrb.velocity = GetComponentInParent<Rigidbody>().velocity;
-        }        
+            bullet--;
+        }
+        bulletCount.text = bullet.ToString();
+        if (bullet <= 0)
+        {
+            GetComponentInParent<CarControl>().ChangeWeapon(2);
+        }
     }
 
     protected override void Action()
@@ -29,21 +36,14 @@ public class MessileControl : GunBase
             aud.PlayOneShot(soundShot, volume);
         }
     }
-    private void Mouse()
-    {
-        Vector3 mousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-        Vector3 targetPos = new Vector3(mousePos.x - 0.5f, 0, mousePos.y - 0.5f);
-        transform.forward = targetPos;
-    }
-
     protected override void Update()
     {
         if (!isSet) return;
+        base.Update();
         shot();
-        Mouse();
     }
     private void Start()
     {
-        
+
     }
 }

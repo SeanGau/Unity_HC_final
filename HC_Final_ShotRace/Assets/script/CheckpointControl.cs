@@ -8,7 +8,7 @@ public class CheckpointControl : MonoBehaviour
     int checkedTimes = 0;
     private void OnTriggerEnter(Collider cl)
     {
-        if(cl.gameObject.tag == "car")
+        if(cl.gameObject.tag == "Player")
         {
             checkedTimes++;
             transform.position = pos[checkedTimes % pos.Length];
