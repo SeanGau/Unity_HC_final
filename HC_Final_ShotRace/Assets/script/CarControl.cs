@@ -51,11 +51,12 @@ public class CarControl : MonoBehaviour
         float hurt = 0;
         if(src.tag == "buildings")
         {
+            /*
             Vector3 speedHit = localVelocity;
             yield return new WaitForSeconds(0.01f);
             hurt = (speedHit - localVelocity).magnitude / 2;
             if (hurt < 10)
-                hurt = 0;
+                hurt = 0;*/
         }
         
         else if(src.tag == "bullet")
@@ -66,7 +67,7 @@ public class CarControl : MonoBehaviour
 
         else if(src.tag == "zombie")
         {
-            hurt = 5;
+            hurt = src.GetComponent<ZombieCar>().attack;
         }
 
         hp -= hurt;

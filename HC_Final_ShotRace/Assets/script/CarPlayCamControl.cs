@@ -7,7 +7,7 @@ public class CarPlayCamControl : MonoBehaviour
     private Transform target;
     public Vector3 offset = new Vector3(0, 40, 0);
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         target = GameManager.playerCar.transform;
     }

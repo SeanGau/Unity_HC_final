@@ -5,6 +5,9 @@ using UnityEngine.AI;
 
 public class ZombieCar : MonoBehaviour
 {
+    public GameObject bulletBox;
+    public float spawnRate = 0.5f;
+    public float attack = 5f;
     private NavMeshAgent nma;
     private float hp = 50f;
     private bool isBoomed = false;
@@ -16,13 +19,19 @@ public class ZombieCar : MonoBehaviour
         if (hp <= 0 && !isBoomed)
         {
             StartCoroutine(boom());
-            GameObject.Find("SpawnPoint").GetComponent<ZombieSpawn>().zombieCount--;
         }
     }
 
     private IEnumerator boom()
     {
         isBoomed = true;
+        GameObject.Find("SpawnPoint").GetComponent<ZombieSpawn>().zombieCount--;
+        if (Random.Range(0f, 1f) < spawnRate)
+        {
+            print("spawn box");
+            var b = Instantiate(bulletBox, transform.position, transform.rotation);
+            b.SetActive(true);
+        }
         transform.Find("BurnFire").gameObject.SetActive(true);
         nma.enabled = false;
         yield return new WaitForSeconds(2);

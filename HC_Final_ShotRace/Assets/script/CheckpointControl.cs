@@ -8,6 +8,7 @@ public class CheckpointControl : MonoBehaviour
     int checkedTimes = 0;
     private void OnTriggerEnter(Collider cl)
     {
+        print("check"+cl.gameObject.name);
         if(cl.gameObject.tag == "Player")
         {
             checkedTimes++;
