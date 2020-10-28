@@ -38,7 +38,7 @@ public class BulletBase : MonoBehaviour
         }
         var boomb = Instantiate(Effects, Point.position, Point.rotation);
         boomb.SetActive(true);
-        boomb.GetComponent<AudioSource>().PlayOneShot(Boom, volume*0.05f);
+        boomb.GetComponent<AudioSource>().PlayOneShot(Boom, volume);
         isHit = true;
 
         Destroy(boomb,1);

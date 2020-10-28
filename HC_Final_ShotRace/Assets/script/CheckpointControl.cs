@@ -11,7 +11,6 @@ public class CheckpointControl : MonoBehaviour
         if(cl.gameObject.tag == "Player")
         {
             checkedTimes++;
-            print("Name" + cl.gameObject.name);
             transform.position = pos[checkedTimes % pos.Length];
         }
     }
